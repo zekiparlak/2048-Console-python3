@@ -20,7 +20,7 @@ def clear():
 	try:
 		os.system("clear")
 	except:
-		os.systen("cls")
+		os.system("cls")
 
 zone = [  ["#","#","#","#","#","#"],
 		  ["#"," "," "," "," ","#"],
