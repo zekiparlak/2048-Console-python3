@@ -1,12 +1,13 @@
 #!/usr/bin/python3
 
+import sys
 import time
 import random
 import os
 import sqlite3 as sql
 import re
 import math
-from sty import fg, rs
+import platform
 
 n = 5
 lost = False
@@ -16,33 +17,40 @@ db = sql.connect("data.db")
 cr = db.cursor()
 cr.execute("CREATE TABLE IF NOT EXISTS scores ('score')")
 
-def clear():
-	try:
-		os.system("clear")
-	except:
-		os.system("cls")
+sys.stdout.write("\x1b[8;{rows};{cols}t".format(rows=25, cols=40))
 
-zone = [  ["#","#","#","#","#","#"],
-		  ["#"," "," "," "," ","#"],
-		  ["#"," "," "," "," ","#"],
-		  ["#"," "," "," "," ","#"],
-		  ["#"," "," "," "," ","#"],
-	 	  ["#","#","#","#","#","#"]]
+zone = 	[["#","#","#","#","#","#"],
+	 ["#"," "," "," "," ","#"],
+	 ["#"," "," "," "," ","#"],
+	 ["#"," "," "," "," ","#"],
+	 ["#"," "," "," "," ","#"],
+ 	 ["#","#","#","#","#","#"]]
 
 try:
 	import readchar
 	def read_input():
 		ch = readchar.readchar()
 		return ch
-except:
+except ImportError:
 	def read_input():
 		ch = input()
 		return ch
 
-def p_color(data):
-	logvalue = math.log(data)/math.log(2)
-	wrt = fg(int(logvalue)) + str(data) + fg.rs
-	return wrt
+try:
+	from sty import bg, fg, rs
+	def p_color(data):
+		logvalue = math.log(data)/math.log(2)
+		wrt = '\033[1m' + fg(int(logvalue)) + str(data) + fg.rs
+		return wrt
+except ImportError:
+	def p_color(data):
+		return data
+
+def clear():
+	if(platform.system() == "Windows"):
+		os.system("cls")
+	else:
+		os.system("clear")
 
 def score_cal():
 	score = 0
@@ -55,7 +63,8 @@ def score_cal():
 def print_zone():
 	global zone
 	global n
-	print("score:",score_cal())
+	print("                2048\n")
+	print("score:",score_cal(),"\n")
 	for i in range(n+1):
 		for j in range(n+1):
 			if(zone[i][j] != "#" and zone[i][j] != " "):
@@ -72,7 +81,7 @@ def print_zone():
 			else:
 				print(zone[i][j],end="      ",flush=True)
 		print("\n"*2)
-	print("up:8 - right:6 - left:4 - down:2 - quit:q")
+	print("up:8 - right:6 - left:4 - down:5 - quit:q")
 
 def play():
 	global lost
@@ -88,14 +97,14 @@ def play():
 			con = str(input("Press any key..."))
 			break
 		mov = str(read_input())
-		if(mov == "4" or mov == "2" or mov == "6" or mov == "8"):
+		if(mov == "4" or mov == "5" or mov == "6" or mov == "8"):
 			if(mov == "4"):
 				moveleft()
 			elif(mov == "6"):
 				moveright()
 			elif(mov == "8"):
 				moveup()
-			elif(mov == "2"):
+			elif(mov == "5"):
 				movedown()
 			clear()
 			print_zone()
@@ -310,25 +319,25 @@ def score_info():
 	datas = cr.fetchall()
 	for i in range(len(datas)):
 		datas[i] = str(datas[i])
-		datas[i] = re.sub('[^0-9]','',datas[i])	
+		datas[i] = re.sub('[^0-9]','',datas[i])
 		datas[i] = int(datas[i])
-	datas = bb_sort(datas)	
+	datas = bb_sort(datas)
 
 def main():
 	global swwp
 	menuc = """
-			####################
-			#       2048       #
-			#1)NEW GAME        #
-			#2)RESUME          #
-			#3)TOP SCORES      #
-			#0)EXIT            #
-			####################
-	"""
+            ####################
+            #       2048       #
+            #1)NEW GAME        #
+            #2)RESUME          #
+            #3)TOP SCORES      #
+            #0)EXIT            #
+            ####################
+        """
 	while(True):
 		swwp = True
 		clear()
-		print(menuc)
+		print('\033[1m' + menuc)
 		ch = str(read_input())
 		if(ch == "1"):
 			refresh()
