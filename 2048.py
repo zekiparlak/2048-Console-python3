@@ -343,7 +343,6 @@ def main():
 			refresh()
 			generate_num()
 			play()
-			print("\n")
 		elif(ch == "2"):
 			play()
 		elif(ch == "3"):
