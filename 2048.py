@@ -173,15 +173,6 @@ def moveleft():
 	global zone
 	global swwp
 	for k in range(1,n):
-		for i in range(1,n):
-			if(zone[k][i] == " "):
-				for j in range(i+1,n):
-					if(zone[k][j] != " "):
-						swp = zone[k][i]
-						zone[k][i] = zone[k][j]
-						zone[k][j] = swp
-						swwp = True
-						break
 		for i in range(1,n-1):
 			if(zone[k][i] == zone[k][i+1] and zone[k][i] != " "):
 				zone[k][i] += zone[k][i+1]
@@ -194,6 +185,7 @@ def moveleft():
 						swp = zone[k][i]
 						zone[k][i] = zone[k][j]
 						zone[k][j] = swp
+						swwp = True
 						break
 
 def moveright():
@@ -201,15 +193,6 @@ def moveright():
 	global zone
 	global swwp
 	for k in range(1,n):
-		for i in range(n-1,1,-1):
-			if(zone[k][i] == " "):
-				for j in range(i,0,-1):
-					if(zone[k][j] != " "):
-						swp = zone[k][i]
-						zone[k][i] = zone[k][j]
-						zone[k][j] = swp
-						swwp = True
-						break
 		for i in range(n-1,1,-1):
 			if(zone[k][i] == zone[k][i-1] and zone[k][i] != " "):
 				zone[k][i] += zone[k][i-1]
@@ -222,6 +205,7 @@ def moveright():
 						swp = zone[k][i]
 						zone[k][i] = zone[k][j]
 						zone[k][j] = swp
+						swwp = True
 						break
 
 def movedown():
@@ -229,15 +213,6 @@ def movedown():
 	global zone
 	global swwp
 	for k in range(1,n):
-		for i in range(n-1,1,-1):
-			if(zone[i][k] == " "):
-				for j in range(i,0,-1):
-					if(zone[j][k] != " "):
-						swp = zone[i][k]
-						zone[i][k] = zone[j][k]
-						zone[j][k] = swp
-						swwp = True
-						break
 		for i in range(n-1,1,-1):
 			if(zone[i][k] == zone[i-1][k] and zone[i][k] != " "):
 				zone[i][k] += zone[i-1][k]
@@ -250,6 +225,7 @@ def movedown():
 						swp = zone[i][k]
 						zone[i][k] = zone[j][k]
 						zone[j][k] = swp
+						swwp = True
 						break
 
 def moveup():
@@ -257,15 +233,6 @@ def moveup():
 	global zone
 	global swwp
 	for k in range(1,n):
-		for i in range(1,n):
-			if(zone[i][k] == " "):
-				for j in range(i+1,n):
-					if(zone[j][k] != " "):
-						swp = zone[i][k]
-						zone[i][k] = zone[j][k]
-						zone[j][k] = swp
-						swwp = True
-						break
 		for i in range(1,n-1):
 			if(zone[i][k] == zone[i+1][k] and zone[i][k] != " "):
 				zone[i][k] += zone[i+1][k]
@@ -278,6 +245,7 @@ def moveup():
 						swp = zone[i][k]
 						zone[i][k] = zone[j][k]
 						zone[j][k] = swp
+						swwp = True
 						break
 
 def refresh():
