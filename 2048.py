@@ -26,25 +26,23 @@ zone = 	[["#","#","#","#","#","#"],
 	 ["#"," "," "," "," ","#"],
  	 ["#","#","#","#","#","#"]]
 
-try:
-	import readchar
-	def read_input():
-		ch = readchar.readchar()
-		return ch
-except ImportError:
-	def read_input():
-		ch = input()
-		return ch
+def read_input():
+    try:
+        import readchar
+        ch = readchar.readchar()
+        return ch
+    except ImportError:
+        ch = input()
+        return ch
 
-try:
-	from sty import bg, fg, rs
-	def p_color(data):
-		logvalue = math.log(data)/math.log(2)
-		wrt = '\033[1m' + fg(int(logvalue)) + str(data) + fg.rs
-		return wrt
-except ImportError:
-	def p_color(data):
-		return data
+    
+def p_color(data):
+    try:
+        from sty import fg, rs
+        logvalue = math.log(data) / math.log(2)
+        return '\033[1m' + fg(int(logvalue)) + str(data) + fg.rs
+    except ImportError:
+        return data
 
 def clear():
 	if(platform.system() == "Windows"):
