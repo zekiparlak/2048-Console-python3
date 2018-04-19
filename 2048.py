@@ -150,7 +150,7 @@ def generate_num():
 		rnd = random.randint(1,10)
 		if(rnd <= 8):
 			rnd_2 = random.randint(1,10)
-			if(rnd_2 <= 7):
+			if(rnd_2 <= 8):
 				putnumber(2)
 			else:
 				putnumber(4)
