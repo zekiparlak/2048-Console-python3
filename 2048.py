@@ -70,9 +70,16 @@ def print_zone():
 				elif(zone[i][j]<100000 and zone[i][j]>10000):
 					print(p_color(zone[i][j]),end="  ",flush=True)
 			else:
-				print(zone[i][j],end="      ",flush=True)
-		print("\n"*2)
-	print("up:8 - right:6 - left:4 - down:5 - quit:q")
+				if(zone[i][j] == "#"):
+					if((i == 0 or i == n) and j < 5):
+						print(zone[i][j],end="######",flush=True)
+					else:
+						print(zone[i][j],end="      ",flush=True)
+				else:
+					print(zone[i][j],end="      ",flush=True)
+		if(i<n):
+			print("\n#                                  #"*2)
+	print("\nPress 'q' for quit.")
 
 def play():
 	global lost
@@ -99,7 +106,7 @@ def play():
 				movedown()
 			clear()
 			print_zone()
-			time.sleep(1/10)
+			time.sleep(1/8)
 			generate_num()
 		elif(mov == "q"):
 			break
@@ -284,6 +291,8 @@ def moveup():
 
 def refresh():
 	global lost
+	global score
+	score = 0
 	lost = False
 	for i in range(1,n):
 		for j in range(1,n):
@@ -331,6 +340,7 @@ def main():
             #1)NEW GAME        #
             #2)RESUME          #
             #3)TOP SCORES      #
+            #4)HOW TO PLAY     #
             #0)EXIT            #
             ####################
         """
@@ -347,6 +357,9 @@ def main():
 			play()
 		elif(ch == "3"):
 			score_info()
+			con = str(input("Press any key..."))
+		elif(ch == "4"):
+			print("Up:8 - Right:6 - Left:4 - Down:5")
 			con = str(input("Press any key..."))
 		elif(ch == "0"):
 			break
