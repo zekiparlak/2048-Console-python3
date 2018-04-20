@@ -12,6 +12,7 @@ import platform
 n = 5
 lost = False
 swwp = False
+score = 0
 
 db = sql.connect("data.db")
 cr = db.cursor()
@@ -35,7 +36,6 @@ def read_input():
         ch = input()
         return ch
 
-    
 def p_color(data):
     try:
         from sty import fg, rs
@@ -50,19 +50,12 @@ def clear():
 	else:
 		os.system("clear")
 
-def score_cal():
-	score = 0
-	for i in range(1,n):
-		for j in range(1,n):
-			if(zone[i][j] != " "):
-				score += zone[i][j]
-	return score
-
 def print_zone():
 	global zone
 	global n
+	global score
 	print("                2048\n")
-	print("score:",score_cal(),"\n")
+	print("score:",score,"\n")
 	for i in range(n+1):
 		for j in range(n+1):
 			if(zone[i][j] != "#" and zone[i][j] != " "):
@@ -118,6 +111,7 @@ def putnumber(number):
 	global zone
 	global lost
 	global swwp
+	global score
 	count = 0
 	control = 0
 	for i in range(1,n):
@@ -141,7 +135,7 @@ def putnumber(number):
 				zone[rnd_3][rnd_4] = number
 				break
 	elif(swwp == False and count == 0 and control == 0):
-		insert_db(db,score_cal())
+		insert_db(db,score)
 		lost = True
 
 def generate_num():
@@ -172,6 +166,7 @@ def moveleft():
 	global n
 	global zone
 	global swwp
+	global score
 	for k in range(1,n):
 		for i in range(1,n):
 			if(zone[k][i] == " "):
@@ -185,6 +180,7 @@ def moveleft():
 		for i in range(1,n-1):
 			if(zone[k][i] == zone[k][i+1] and zone[k][i] != " "):
 				zone[k][i] += zone[k][i+1]
+				score += zone[k][i]
 				zone[k][i+1] = " "
 				swwp = True
 		for i in range(1,n):
@@ -200,6 +196,7 @@ def moveright():
 	global n
 	global zone
 	global swwp
+	global score
 	for k in range(1,n):
 		for i in range(n-1,1,-1):
 			if(zone[k][i] == " "):
@@ -213,6 +210,7 @@ def moveright():
 		for i in range(n-1,1,-1):
 			if(zone[k][i] == zone[k][i-1] and zone[k][i] != " "):
 				zone[k][i] += zone[k][i-1]
+				score += zone[k][i]
 				zone[k][i-1] = " "
 				swwp = True
 		for i in range(n-1,1,-1):
@@ -228,6 +226,7 @@ def movedown():
 	global n
 	global zone
 	global swwp
+	global score
 	for k in range(1,n):
 		for i in range(n-1,1,-1):
 			if(zone[i][k] == " "):
@@ -241,6 +240,7 @@ def movedown():
 		for i in range(n-1,1,-1):
 			if(zone[i][k] == zone[i-1][k] and zone[i][k] != " "):
 				zone[i][k] += zone[i-1][k]
+				score += zone[i][k]
 				zone[i-1][k] = " "
 				swwp = True
 		for i in range(n-1,1,-1):
@@ -256,6 +256,7 @@ def moveup():
 	global n
 	global zone
 	global swwp
+	global score
 	for k in range(1,n):
 		for i in range(1,n):
 			if(zone[i][k] == " "):
@@ -269,6 +270,7 @@ def moveup():
 		for i in range(1,n-1):
 			if(zone[i][k] == zone[i+1][k] and zone[i][k] != " "):
 				zone[i][k] += zone[i+1][k]
+				score += zone[i][k]
 				zone[i+1][k] = " "
 				swwp = True
 		for i in range(1,n):
@@ -319,7 +321,7 @@ def score_info():
 		datas[i] = str(datas[i])
 		datas[i] = re.sub('[^0-9]','',datas[i])
 		datas[i] = int(datas[i])
-	datas = bb_sort(datas)
+	bb_sort(datas)
 
 def main():
 	global swwp
