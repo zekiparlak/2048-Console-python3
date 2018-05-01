@@ -366,4 +366,5 @@ def main():
 		else:
 			continue
 
+clear()
 main()
