@@ -30,7 +30,7 @@ zone = 	[["#","#","#","#","#","#"],
 def read_input():
     try:
         import readchar
-        ch = readchar.readchar()
+        ch = readchar.readkey()
         return ch
     except ImportError:
         ch = input()
